@@ -1,17 +1,17 @@
 
  const getColor = (status) => {
   switch (status) {
-    case 'unvisited':
+    case 3:
       return 'aliceblue'
-    case 'start':
+    case 0:
       return 'green'
-    case 'end':
+    case 1:
       return 'red'
-    case 'wall':
+    case 2:
       return 'black'
-    case 'visited':
+    case 4:
       return 'lightblue'
-    case 'shortest':
+    case 5:
       return 'yellow'
     default:
       return 'aliceblue'
@@ -30,6 +30,8 @@ const Node = ({num, mode, setMatrix, status}) => {
     maxWidth: "28px",
     height: "2vw",
     maxHeight: "28px",
+    cursor: "pointer",
+    
   }
 }
 
@@ -38,11 +40,11 @@ const Node = ({num, mode, setMatrix, status}) => {
       style={styles.node}
       onClick={() => {
         setMatrix((prev) => {
-          if (mode === 'start' || mode === 'end') {
+          if (mode === 1 || mode === 0) {
             const newMatrix = [...prev]
             newMatrix.forEach((node) => {
               if (node.status === mode) {
-                node.status = 'unvisited'
+                node.status = 'clear'
               }
             })
             newMatrix[num].status = mode
@@ -52,9 +54,19 @@ const Node = ({num, mode, setMatrix, status}) => {
             newMatrix[num].status = mode
             return newMatrix
           }
-        })
+          })
         }
       }
+
+      onDragOver={() => {
+        if (mode === 2 || mode === 3) {
+          setMatrix((prev) => {
+            const newMatrix = [...prev]
+            newMatrix[num].status = mode
+            return newMatrix
+          })
+        }
+      }}
     >
 
     </div>
