@@ -1,0 +1,6 @@
+.node {
+  background-color: aliceblue;
+  border: 1px solid black;
+  width: calc(2vw - 1px);
+  height: calc(2vw - 1px);
+}
