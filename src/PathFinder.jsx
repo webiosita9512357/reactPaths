@@ -22,6 +22,7 @@ import Node from './components/Node'
 
 const PathFinder = () => {
   const [mode, setMode] = useState(0);
+  const [alg, setAlg] = useState(0);
   const [matrix, setMatrix] = useState(grid);
   const [disabledChoice, setDisabledChoice] = useState(false);
 
@@ -87,18 +88,27 @@ const PathFinder = () => {
 
 
   const startVisualization = () => {
-    const result = dijkstra(matrix, setMatrix);
-    Animate(result);
+    if (alg === 0) {
+      const result = dijkstra(matrix, setMatrix);
+      Animate(result);
+    }
+    if (alg === 1) {
+      // const result = aStar(matrix, setMatrix);
+      // Animate(result);
+      console.log("start A*")
+    }
     
   }
 
   return  (
     <div style={styles.main}>
-      <Bar disabledChoice={disabledChoice} setMode={setMode} mode={mode} start={startVisualization} clear={clearMatrix} />
-      <div style={styles.grid}>
-        {matrix.map((node) => (
-          <Node disabledChoice={disabledChoice} setMatrix={setMatrix} mode={mode} key={node.num} num={node.num} status={node.status} />
-        ))}
+      <Bar alg={alg} setAlg={setAlg} disabledChoice={disabledChoice} setMode={setMode} mode={mode} start={startVisualization} clear={clearMatrix} />
+      <div style={styles.center}>
+        <div style={styles.grid}>
+          {matrix.map((node) => (
+            <Node disabledChoice={disabledChoice} setMatrix={setMatrix} mode={mode} key={node.num} num={node.num} status={node.status} />
+            ))}
+        </div>
       </div>
     </div>
   )
@@ -106,9 +116,17 @@ const PathFinder = () => {
 
  const styles = {
   main: {
-    width: '100vw',
     maxWidth: '1000px',
     margin: '0 auto',
+  },
+  center: {
+    width: '100vw',
+    maxWidth: '1000px',
+    position: "absolute",
+    top: "57%",
+    left: "50%",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%) "
   },
   grid: {
     width: '100%',

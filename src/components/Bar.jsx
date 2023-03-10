@@ -1,9 +1,12 @@
 import React from 'react'
 
  const modes = [{id: 0, name: "Start"}, {id: 1, name: "End"}, {id: 2, name: "Wall"}, {id: 3, name: "Clear"}]
+  const algorithms = [{id: 0, name: "Dijkstra"}, {id: 1, name: "A*"}]
 
-const Bar = ({mode, setMode, start, clear, disabledChoice}) => {
+const Bar = ({mode, setMode, start, clear, disabledChoice, alg, setAlg}) => {
   return (
+  <div>
+    {<p style={styles.disabledText}>{disabledChoice && "*To change parameters clear the Grid"}</p>}
     <div style={styles.main}>
       <div style={styles.buttonBackground}>
       {modes.map((Item) => (
@@ -11,7 +14,7 @@ const Bar = ({mode, setMode, start, clear, disabledChoice}) => {
           disabled={disabledChoice}
           key={Item.id}
           style={{...styles.button,
-            backgroundColor: Item.id === mode? "#fb5607": styles.button.backgroundColor,
+            backgroundColor: Item.id === mode? "#42a5f5": styles.button.backgroundColor,
             opacity: disabledChoice? 0.5: 1,
           }} 
           onClick={() => setMode(Item.id)}>
@@ -21,42 +24,43 @@ const Bar = ({mode, setMode, start, clear, disabledChoice}) => {
       </div>
       <div style={styles.buttonBackground}>
         <button 
-          style={styles.button}
+           style={{...styles.button, backgroundColor: "crimson", color: "white"}}
           onClick={clear}
         >
           Clear
         </button>
         <button 
-          style={styles.button}
+          style={{...styles.button, backgroundColor: "darkGreen", color: "white"}}
           onClick={start}
         >
           Visualize
         </button>
       </div>
       <div style={styles.buttonBackground}>
-         <button 
-          style={styles.button}
-          onClick={clear}
-        >
-          Dijkstra
-        </button>
-        <button 
-          style={styles.button}
-          onClick={start}
-        >
-          A*
-        </button>
+        {algorithms.map((Item) => (
+          <button
+            disabled={disabledChoice}
+            key={Item.id}
+            style={{...styles.button,
+              backgroundColor: Item.id === alg? "#42a5f5": styles.button.backgroundColor,
+              opacity: disabledChoice? 0.5: 1,
+            }}
+            onClick={() => setAlg(Item.id)}
+          >
+            {Item.name}
+          </button>
+        ))}
       </div>
-      {disabledChoice && <p style={styles.disabledText}>*To change parameters clear the Grid</p>}
     </div>
+  </div>
   )
 }
 
  const styles = {
   main: {
-    width: "90%",
+    width: "100%",
     color: "white",
-    height: "100px",
+    height: "fit-content",
     margin: "0px auto",
     display: "flex",
     justifyContent: "space-between",
@@ -64,7 +68,7 @@ const Bar = ({mode, setMode, start, clear, disabledChoice}) => {
     position: "relative",
   },
   button: {
-    backgroundColor: "#ffd60a",
+    backgroundColor: "#bbdefb",
     fontWeight: "bold",
     width: "100px",
     color: "black",
@@ -76,14 +80,14 @@ const Bar = ({mode, setMode, start, clear, disabledChoice}) => {
   },
   disabledText: {
     color: "#fff",
-    position: "absolute",
-    bottom: -15,
-    left: 0,
+    height: "15px",
   },
   buttonBackground: {
     backgroundColor: "#fff",
-    borderRadius: "10px",
+    borderRadius: "5px",
     padding: "1px",
+    margin: "5px",
+    alignItems: "center",
   }
  }
 
