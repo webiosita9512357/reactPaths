@@ -20,22 +20,40 @@ import Node from './components/Node'
 const PathFinder = () => {
   const [mode, setMode] = useState(0);
   const [matrix, setMatrix] = useState(grid);
+  const [disabledChoice, setDisabledChoice] = useState(false);
+
+  const clearMatrix = () => {
+    setDisabledChoice(false);
+    setMatrix((prev) => {
+      const newMatrix = [...prev]
+      newMatrix.forEach((node) => {
+        node.distance = Infinity;
+        node.prev = null;
+        if (node.status !== 0 && node.status !== 1) {
+          node.status = 3;
+        }
+      })
+      return newMatrix
+    })
+  }
+
 
     const Animate = (result) => {
-    const {visitedNodes, path} = result;
-    const processSpeed = 5;
-      for (let i = 0; i < visitedNodes.length; i++) {
-        setTimeout(() => {
-          setMatrix((prev) => {
-              const newMatrix = [...prev]
-              if (i === 0) {
-                newMatrix[visitedNodes[i].num].status = 0
+      setDisabledChoice(true);
+      const {visitedNodes, path} = result;
+      const processSpeed = 5;
+        for (let i = 0; i < visitedNodes.length; i++) {
+          setTimeout(() => {
+            setMatrix((prev) => {
+                const newMatrix = [...prev]
+                if (i === 0) {
+                  newMatrix[visitedNodes[i].num].status = 0
+                  return newMatrix
+                }
+                newMatrix[visitedNodes[i].num].status = 5
                 return newMatrix
-              }
-              newMatrix[visitedNodes[i].num].status = 5
-              return newMatrix
-            })
-          }, processSpeed * i)
+              })
+            }, processSpeed * i)
       }
       
     setTimeout(() => {
@@ -69,10 +87,10 @@ const PathFinder = () => {
 
   return  (
     <div style={styles.main}>
-      <Bar setMode={setMode} mode={mode} start={startVisualization}/>
+      <Bar disabledChoice={disabledChoice} setMode={setMode} mode={mode} start={startVisualization} clear={clearMatrix} />
       <div style={styles.grid}>
         {matrix.map((node) => (
-          <Node setMatrix={setMatrix} mode={mode} key={node.num} num={node.num} status={node.status} />
+          <Node disabledChoice={disabledChoice} setMatrix={setMatrix} mode={mode} key={node.num} num={node.num} status={node.status} />
         ))}
       </div>
     </div>

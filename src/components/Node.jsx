@@ -8,7 +8,7 @@
     case 1:
       return 'DarkRed'
     case 2:
-      return 'black'
+      return '#1c2d41'
     case 4:
       return 'aliceblue'
     case 5:
@@ -22,7 +22,7 @@
 
 
 
-const Node = ({num, mode, setMatrix, status}) => {
+const Node = ({num, mode, setMatrix, status, disabledChoice}) => {
 
   const styles = {
   node: {
@@ -33,7 +33,7 @@ const Node = ({num, mode, setMatrix, status}) => {
     height: "2vw",
     maxHeight: "28px",
     cursor: "pointer",
-    
+    transition: "all 0.2s",
   }
 }
 
@@ -41,20 +41,20 @@ const Node = ({num, mode, setMatrix, status}) => {
     <div
       style={styles.node}
       onClick={() => {
-        setMatrix((prev) => {
+        !disabledChoice && setMatrix((prev) => {
           if (mode === 1 || mode === 0) {
             const newMatrix = [...prev]
             newMatrix.forEach((node) => {
               if (node.status === mode) {
-                node.status = 'clear'
+                node.status = 3;
               }
             })
-            newMatrix[num].status = mode
+            newMatrix[num].status = mode;
             return newMatrix
           } else {
-            const newMatrix = [...prev]
-            newMatrix[num].status = mode
-            return newMatrix
+            const newMatrix = [...prev];
+            newMatrix[num].status = mode;
+            return newMatrix;
           }
           })
         }
@@ -62,10 +62,10 @@ const Node = ({num, mode, setMatrix, status}) => {
 
       onDragOver={() => {
         if (mode === 2 || mode === 3) {
-          setMatrix((prev) => {
-            const newMatrix = [...prev]
-            newMatrix[num].status = mode
-            return newMatrix
+          !disabledChoice && setMatrix((prev) => {
+            const newMatrix = [...prev];
+            newMatrix[num].status = mode;
+            return newMatrix;
           })
         }
       }}
