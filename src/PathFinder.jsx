@@ -10,20 +10,61 @@ import Node from './components/Node'
 
   for (let i = 0; i < x; i++) {
     for (let j = 0; j < y; j++) {
-      grid.push({num: (i * y + j), status: 'unvisited', distance: Infinity, prev: null})
+      grid.push({num: (i * y + j), status: 3, distance: Infinity, prev: null})
     }
   }
+
+
 
 
 const PathFinder = () => {
   const [mode, setMode] = useState(0);
   const [matrix, setMatrix] = useState(grid);
 
-  const startVisualization = () => {
-    const startNode = matrix.find((node) => node.status === 'start')
-    const endNode = matrix.find((node) => node.status === 'end')
-    dijkstra(matrix, setMatrix, startNode, endNode)
+    const Animate = (result) => {
+    const {visitedNodes, path} = result;
+    const processSpeed = 5;
+      for (let i = 0; i < visitedNodes.length; i++) {
+        setTimeout(() => {
+          setMatrix((prev) => {
+              const newMatrix = [...prev]
+              if (i === 0) {
+                newMatrix[visitedNodes[i].num].status = 0
+                return newMatrix
+              }
+              newMatrix[visitedNodes[i].num].status = 5
+              return newMatrix
+            })
+          }, processSpeed * i)
+      }
+      
+    setTimeout(() => {
+      for (let i = 0; i < path.length; i++) {
+        setTimeout(() => {
+          setMatrix((prev) => {
+            const newMatrix = [...prev]
+            if (i === path.length - 1) {
+              newMatrix[path[i].num].status = 1
+              return newMatrix
+            }
+            if (i === 0) {
+              newMatrix[path[i].num].status = 0
+              return newMatrix
+            }
+            newMatrix[path[i].num].status = 6
+            return newMatrix
+          })
+        }, 15 * i)
+      }
+    }, processSpeed * visitedNodes.length)
+  }
 
+
+
+  const startVisualization = () => {
+    const result = dijkstra(matrix, setMatrix);
+    Animate(result);
+    
   }
 
   return  (

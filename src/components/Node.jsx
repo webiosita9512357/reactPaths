@@ -4,15 +4,17 @@
     case 3:
       return 'aliceblue'
     case 0:
-      return 'green'
+      return 'MediumSeaGreen'
     case 1:
-      return 'red'
+      return 'DarkRed'
     case 2:
       return 'black'
     case 4:
-      return 'lightblue'
+      return 'aliceblue'
     case 5:
-      return 'yellow'
+      return 'lightblue'
+    case 6:
+      return 'RoyalBlue'
     default:
       return 'aliceblue'
   }
