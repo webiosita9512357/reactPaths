@@ -29,11 +29,11 @@ const Node = ({num, mode, setMatrix, status, disabledChoice}) => {
     backgroundColor: getColor(status),
     border: "1px solid #1c2d41",
     width: "2vw",
-    maxWidth: "28px",
+    maxWidth: "20px",
     height: "2vw",
-    maxHeight: "28px",
+    maxHeight: "20px",
     cursor: "pointer",
-    transition: "all 0.2s",
+    transition: "all 0.4s",
   }
 }
 
