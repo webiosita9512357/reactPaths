@@ -5,7 +5,7 @@ import React from 'react'
 const Bar = ({mode, setMode, start, clear, disabledChoice}) => {
   return (
     <div style={styles.main}>
-      <div>
+      <div style={styles.buttonBackground}>
       {modes.map((Item) => (
         <button
           disabled={disabledChoice}
@@ -19,7 +19,7 @@ const Bar = ({mode, setMode, start, clear, disabledChoice}) => {
         </button>
       ))}
       </div>
-      <div>
+      <div style={styles.buttonBackground}>
         <button 
           style={styles.button}
           onClick={clear}
@@ -33,7 +33,7 @@ const Bar = ({mode, setMode, start, clear, disabledChoice}) => {
           Visualize
         </button>
       </div>
-      <div>
+      <div style={styles.buttonBackground}>
          <button 
           style={styles.button}
           onClick={clear}
@@ -56,8 +56,8 @@ const Bar = ({mode, setMode, start, clear, disabledChoice}) => {
   main: {
     width: "90%",
     color: "white",
-    height: "120px",
-    margin: "0px 15px",
+    height: "100px",
+    margin: "0px auto",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
@@ -79,6 +79,11 @@ const Bar = ({mode, setMode, start, clear, disabledChoice}) => {
     position: "absolute",
     bottom: -15,
     left: 0,
+  },
+  buttonBackground: {
+    backgroundColor: "#fff",
+    borderRadius: "10px",
+    padding: "1px",
   }
  }
 

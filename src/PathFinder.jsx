@@ -14,6 +14,9 @@ import Node from './components/Node'
     }
   }
 
+  grid[0].status = 0;
+  grid[grid.length - 1].status = 1;
+
 
 
 
@@ -57,6 +60,10 @@ const PathFinder = () => {
       }
       
     setTimeout(() => {
+      if (!path) {
+        alert('No path found!')
+        return;
+      }
       for (let i = 0; i < path.length; i++) {
         setTimeout(() => {
           setMatrix((prev) => {
