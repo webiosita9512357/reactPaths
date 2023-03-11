@@ -70,15 +70,8 @@ export default function aStar(matrix) {
       break
     };
   }
-
-
-
-
-
   
 }
-
-
 
 
   const sortNodesByDistance = (unvisitedNodes) => {
@@ -107,7 +100,7 @@ export default function aStar(matrix) {
     // right
     if (num % 50 !== 49) neighbors.push(matrix[num + 1]);
 
-    return neighbors.filter(neighbor => neighbor.status === 3 || neighbor.status === 1 || neighbor.status === 5 || neighbor.status === 6);
+    return neighbors.filter(neighbor => neighbor.status === 3 || neighbor.status === 2 || neighbor.status === 1 || neighbor.status === 5 || neighbor.status === 6);
 
   }
   

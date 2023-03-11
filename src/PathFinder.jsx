@@ -26,6 +26,7 @@ import Node from './components/Node'
     const [alg, setAlg] = useState(1);
     const [matrix, setMatrix] = useState(grid);
     const [disabledChoice, setDisabledChoice] = useState(false);
+    const [disableStarters, setDisableStarters] = useState(false);
 
     const clearMatrix = () => {
       setDisabledChoice(false);
@@ -37,6 +38,23 @@ import Node from './components/Node'
           node.H = Infinity;
           node.prev = null;
           if (node.status !== 0 && node.status !== 1) {
+            node.status = 3;
+          }
+        })
+        return newMatrix
+      })
+    }
+
+    const reset = () => {
+      setDisabledChoice(false);
+      setMatrix((prev) => {
+        const newMatrix = [...prev]
+        newMatrix.forEach((node) => {
+          node.F = Infinity;
+          node.G = Infinity;
+          node.H = Infinity;
+          node.prev = null;
+          if (node.status !== 0 && node.status !== 1 && node.status !== 2) {
             node.status = 3;
           }
         })
@@ -87,15 +105,20 @@ import Node from './components/Node'
             })
           }, 25 * i)
         }
-      }, speed * path.length)
+      }, type === 'djikstra'? speed * visitedNodes.length :speed * path.length)
+
+      setTimeout(() => {
+        setDisableStarters(false);
+      }, type === 'djikstra'? (speed * visitedNodes.length) + (25 * path.length): (speed * path.length) + (25 * path.length))
     }
 
 
 
     const startVisualization = () => {
+      setDisableStarters(true);
       if (alg === 0) {
         const result = dijkstra(matrix);
-        Animate(result, 30, 'djikstra');
+        Animate(result, 10, 'djikstra');
       }
       if (alg === 1) {
         const result = aStar([...matrix]);   
@@ -106,7 +129,7 @@ import Node from './components/Node'
 
     return  (
       <div style={styles.main}>
-        <Bar alg={alg} setAlg={setAlg} disabledChoice={disabledChoice} setMode={setMode} mode={mode} start={startVisualization} clear={clearMatrix} />
+        <Bar disableStarters={disableStarters} alg={alg} setAlg={setAlg} reset={reset} disabledChoice={disabledChoice} setMode={setMode} mode={mode} start={startVisualization} clear={clearMatrix} />
         <div style={styles.center}>
           <div style={styles.grid}>
             {matrix.map((node) => (

@@ -65,7 +65,7 @@ export default function dijkstra(matrix) {
     //  right
     if (((num + 1) % 50) !== 0) neighbors.push(matrix[num + 1]);
 
-    return neighbors.filter(neighbor => neighbor.status === 3 || neighbor.status === 1);
+    return neighbors.filter(neighbor => neighbor.status === 3 || neighbor.status === 1 || neighbor.status === 2);
   }
 
   const getPath = (node) => {
