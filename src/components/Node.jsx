@@ -1,22 +1,29 @@
-
+ // enum for status
  const getColor = (status) => {
   switch (status) {
+    // clear
     case 3:
-      return 'aliceblue'
+      return 'aliceblue';
+    // start
     case 0:
-      return 'MediumSeaGreen'
+      return 'MediumSeaGreen';
+    // end
     case 1:
-      return 'DarkRed'
-    case 2:
-      return '#1c2d41'
+      return 'DarkRed';
+    // wall
+      case 2:
+      return '#1c2d41';
+    // visited
     case 4:
-      return 'aliceblue'
+      return 'aliceblue';
+    // showVisited
     case 5:
-      return 'lightblue'
+      return 'lightblue';
+    // showPath
     case 6:
-      return 'RoyalBlue'
+      return 'RoyalBlue';
     default:
-      return 'aliceblue'
+      return 'aliceblue';
   }
  }
 
@@ -50,23 +57,27 @@ const Node = ({num, mode, setMatrix, status, disabledChoice}) => {
               }
             })
             newMatrix[num].status = mode;
-            return newMatrix
-          } else {
+            return newMatrix;
+
+          } else if (status === 3 || status === 4 || status === 2) {
             const newMatrix = [...prev];
             newMatrix[num].status = mode;
             return newMatrix;
-          }
+            }
+            return prev;
           })
         }
       }
 
       onDragOver={() => {
         if (mode === 2 || mode === 3) {
-          !disabledChoice && setMatrix((prev) => {
-            const newMatrix = [...prev];
-            newMatrix[num].status = mode;
-            return newMatrix;
-          })
+          if (status === 3 || status === 4 || status === 2) {
+            !disabledChoice && setMatrix((prev) => {
+              const newMatrix = [...prev];
+              newMatrix[num].status = mode;
+              return newMatrix;
+            })
+          }
         }
       }}
     >

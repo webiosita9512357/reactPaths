@@ -9,20 +9,6 @@ const Bar = ({mode, setMode, start, clear, disabledChoice, alg, setAlg}) => {
     {<p style={styles.disabledText}>{disabledChoice && "*To change parameters clear the Grid"}</p>}
     <div style={styles.main}>
       <div style={styles.buttonBackground}>
-      {modes.map((Item) => (
-        <button
-          disabled={disabledChoice}
-          key={Item.id}
-          style={{...styles.button,
-            backgroundColor: Item.id === mode? "#42a5f5": styles.button.backgroundColor,
-            opacity: disabledChoice? 0.5: 1,
-          }} 
-          onClick={() => setMode(Item.id)}>
-            {Item.name}
-        </button>
-      ))}
-      </div>
-      <div style={styles.buttonBackground}>
         <button 
            style={{...styles.button, backgroundColor: "crimson", color: "white"}}
           onClick={clear}
@@ -35,6 +21,20 @@ const Bar = ({mode, setMode, start, clear, disabledChoice, alg, setAlg}) => {
         >
           Visualize
         </button>
+      </div>
+      <div style={styles.buttonBackground}>
+        {modes.map((Item) => (
+          <button
+            disabled={disabledChoice}
+            key={Item.id}
+            style={{...styles.button,
+              backgroundColor: Item.id === mode? "#42a5f5": styles.button.backgroundColor,
+              opacity: disabledChoice? 0.5: 1,
+            }} 
+            onClick={() => setMode(Item.id)}>
+              {Item.name}
+          </button>
+        ))}
       </div>
       <div style={styles.buttonBackground}>
         {algorithms.map((Item) => (
@@ -85,9 +85,11 @@ const Bar = ({mode, setMode, start, clear, disabledChoice, alg, setAlg}) => {
   buttonBackground: {
     backgroundColor: "#fff",
     borderRadius: "5px",
-    padding: "1px",
+    padding: "3px",
     margin: "5px",
-    alignItems: "center",
+    justifyContent: "center",
+    display: "flex",
+    flexWrap: "wrap",
   }
  }
 

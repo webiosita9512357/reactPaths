@@ -1,6 +1,6 @@
 
 
-// figure out start node ---
+// figure out start node
 // get neighbors of start
 // set distance of neighbors
 // set previous node of neighbors
@@ -14,7 +14,7 @@
 export default function dijkstra(matrix) {
   
   const startNode = matrix.find(node => node.status === 0);
-  startNode.distance = 0;
+  startNode.F = 0;
   const visitedNodes = [];
   const unvisitedNodes = [...matrix];
 
@@ -22,8 +22,10 @@ export default function dijkstra(matrix) {
   while (unvisitedNodes.length > 0) {
     sortNodesByDistance(unvisitedNodes);
     const closestNode = unvisitedNodes.shift();
+    // wall
     if (closestNode.status === 2) continue;
-    if (closestNode.distance === Infinity) return {visitedNodes};
+    // no more epmty nodes
+    if (closestNode.F === Infinity) return {visitedNodes};
     if (closestNode.status === 1) {
       const path = getPath(closestNode);
       return {visitedNodes, path};
@@ -38,16 +40,16 @@ export default function dijkstra(matrix) {
  }
 
  const sortNodesByDistance = (unvisitedNodes) => {
-    unvisitedNodes.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
+    unvisitedNodes.sort((nodeA, nodeB) => nodeA.F - nodeB.F);
  }
 
-const updateNeighbors = (node, matrix) => {
-    const neighbors = getUnvisitedNeighbors(node, matrix);
-    for (const neighbor of neighbors) {
-      neighbor.distance = node.distance + 1;
-      neighbor.prev = node;
+  const updateNeighbors = (node, matrix) => {
+      const neighbors = getUnvisitedNeighbors(node, matrix);
+      for (const neighbor of neighbors) {
+        neighbor.F = node.F + 1;
+        neighbor.prev = node;
+      }
     }
-  }
 
 
 
