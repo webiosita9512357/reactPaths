@@ -7,23 +7,18 @@ export default function aStar(matrix) {
     const nodeRow = Math.floor(node.num / 50);
     const nodeCol = node.num - (nodeRow * 50);
 
-
     const G = node.G <= neighbor.G + 1 ? node.G : neighbor.G + 1;
     const H = Math.abs(endNodeRow - nodeRow) + Math.abs(endNodeCol - nodeCol);
     const F = G + H;
 
 
-    if (neighbor.G < node.G) {
+    if (neighbor.G + 1 < node.G) {
       node.prev = neighbor;
     }
 
     node.F = F;
     node.G = G;
     node.H = H;
-
-    if (toSearch.indexOf((el) => el.num === node.num) === -1 && node.status !== 4) {
-      toSearch.push(node);
-    }
 
   }
 
@@ -32,6 +27,7 @@ export default function aStar(matrix) {
     const neighbors = getUnvisitedNeighbors(node, matrix);
     for (const neighbor of neighbors) {
       calculateGHF(neighbor, node);
+      toSearch.filter(node => node.num === neighbor.num).length === 0 && toSearch.push(neighbor);
     }
   }
 
@@ -54,20 +50,17 @@ export default function aStar(matrix) {
   while (toSearch.length > 0) {
     sortNodesByDistance(toSearch);
     const closestNode = toSearch.shift();
-    console.log(closestNode.num)
     // wall
     if (closestNode.status === 2) continue;
+    visitedNodes.push(closestNode);
+    // no nodes to search
+    if (toSearch.length === 0 && closestNode.status !== 0 && closestNode.status !== 1) return {visitedNodes};
     // found end node
     if (closestNode.status === 1) {
       const path = getPath(closestNode);
       return { visitedNodes, path };
     };
-    
-    // no nodes to search
-    if (toSearch.length === 0 && closestNode.status !== 0) return {visitedNodes};
-
-    visitedNodes.push(closestNode);
-    closestNode.status = 4;
+    closestNode.status = 4;    
     
     updateNeighbors(closestNode);
 
@@ -114,7 +107,8 @@ export default function aStar(matrix) {
     // right
     if (num % 50 !== 49) neighbors.push(matrix[num + 1]);
 
-    return neighbors.filter(neighbor => neighbor.status !== 4 || neighbor.status !== 1 || neighbor.status !== 2);
+    return neighbors.filter(neighbor => neighbor.status === 3 || neighbor.status === 1 || neighbor.status === 5 || neighbor.status === 6);
+
   }
   
 

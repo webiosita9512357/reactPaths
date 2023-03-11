@@ -55,6 +55,10 @@ import Node from './components/Node'
                     newMatrix[visitedNodes[i].num].status = 0
                     return newMatrix
                   }
+                  if (i === visitedNodes.length - 1 && type === 'A*' && path) {
+                    newMatrix[visitedNodes[i].num].status = 1
+                    return newMatrix
+                  }
                   newMatrix[visitedNodes[i].num].status = 5
                   return newMatrix
                 })
@@ -91,10 +95,10 @@ import Node from './components/Node'
     const startVisualization = () => {
       if (alg === 0) {
         const result = dijkstra(matrix);
-        Animate(result, 5, 'djikstra');
+        Animate(result, 30, 'djikstra');
       }
       if (alg === 1) {
-        const result = aStar([...matrix]);
+        const result = aStar([...matrix]);   
         Animate(result, 15, 'A*');
       }
       

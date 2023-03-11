@@ -3,27 +3,27 @@
   switch (status) {
     // clear
     case 3:
-      return 'aliceblue';
+      return '#eaebed';
     // start
     case 0:
-      return 'MediumSeaGreen';
+      return '#0c7c59';
     // end
     case 1:
-      return 'DarkRed';
+      return '#ff595e';
     // wall
       case 2:
       return '#1c2d41';
     // visited
     case 4:
-      return 'aliceblue';
+      return '#eaebed';
     // showVisited
     case 5:
-      return 'lightblue';
+      return '#89c2d9';
     // showPath
     case 6:
-      return 'RoyalBlue';
+      return '#faa307';
     default:
-      return 'aliceblue';
+      return '#eaebed';
   }
  }
 
@@ -40,7 +40,7 @@ const Node = ({num, mode, setMatrix, status, disabledChoice}) => {
     height: "2vw",
     maxHeight: "20px",
     cursor: "pointer",
-    transition: "all 0.4s",
+    transition: "all 0.3s",
   }
 }
 
