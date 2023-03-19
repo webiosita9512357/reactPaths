@@ -53,8 +53,7 @@ export default function aStar(matrix) {
     // wall
     if (closestNode.status === 2) continue;
     visitedNodes.push(closestNode);
-    // no nodes to search
-    if (toSearch.length === 0 && closestNode.status !== 0 && closestNode.status !== 1) return {visitedNodes};
+    
     // found end node
     if (closestNode.status === 1) {
       const path = getPath(closestNode);
@@ -66,10 +65,12 @@ export default function aStar(matrix) {
 
     count++;
     if (count > 2500) {
-      console.log("infinity", toSearch);
+      console.error("infinity", toSearch);
       break
     };
   }
+
+  return {visitedNodes};
   
 }
 

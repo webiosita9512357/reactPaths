@@ -29,7 +29,7 @@
 
 
 
-const Node = ({num, mode, setMatrix, status, disabledChoice}) => {
+const Node = ({num, mode, setMatrix, status, disabledChoice, isMouseDown, setIsMouseDown}) => {
 
   const styles = {
   node: {
@@ -62,6 +62,7 @@ const Node = ({num, mode, setMatrix, status, disabledChoice}) => {
           } else if (status === 3 || status === 4 || status === 2) {
             const newMatrix = [...prev];
             newMatrix[num].status = mode;
+            setIsMouseDown(!isMouseDown);
             return newMatrix;
             }
             return prev;
@@ -69,10 +70,10 @@ const Node = ({num, mode, setMatrix, status, disabledChoice}) => {
         }
       }
 
-      onDragOver={() => {
+      onMouseEnter={() => {
         if (mode === 2 || mode === 3) {
           if (status === 3 || status === 4 || status === 2) {
-            !disabledChoice && setMatrix((prev) => {
+            !disabledChoice && isMouseDown && setMatrix((prev) => {
               const newMatrix = [...prev];
               newMatrix[num].status = mode;
               return newMatrix;

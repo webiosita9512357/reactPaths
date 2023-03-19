@@ -27,6 +27,8 @@ import Node from './components/Node'
     const [matrix, setMatrix] = useState(grid);
     const [disabledChoice, setDisabledChoice] = useState(false);
     const [disableStarters, setDisableStarters] = useState(false);
+    const [isMouseDown, setIsMouseDown] = useState(false);
+
 
     const clearMatrix = () => {
       setDisabledChoice(false);
@@ -64,7 +66,7 @@ import Node from './components/Node'
 
       const Animate = (result, speed, type) => {
         setDisabledChoice(true);
-        const {visitedNodes, path} = result;
+        const {visitedNodes} = result;
           for (let i = 0; i < visitedNodes.length; i++) {
             setTimeout(() => {
               setMatrix((prev) => {
@@ -73,7 +75,7 @@ import Node from './components/Node'
                     newMatrix[visitedNodes[i].num].status = 0
                     return newMatrix
                   }
-                  if (i === visitedNodes.length - 1 && type === 'A*' && path) {
+                  if (i === visitedNodes.length - 1 && type === 'A*' && !!result.path) {
                     newMatrix[visitedNodes[i].num].status = 1
                     return newMatrix
                   }
@@ -83,33 +85,37 @@ import Node from './components/Node'
               }, type === 'djikstra'? speed * i : speed)
         }
         
-      setTimeout(() => {
-        if (!path) {
-          alert('No path found!')
-          return;
-        }
-        for (let i = 0; i < path.length; i++) {
-          setTimeout(() => {
-            setMatrix((prev) => {
-              const newMatrix = [...prev]
-              if (i === path.length - 1) {
-                newMatrix[path[i].num].status = 1
+      if (result.path) {
+        setTimeout(() => {  
+          for (let i = 0; i < result.path.length; i++) {
+            setTimeout(() => {
+              setMatrix((prev) => {
+                const newMatrix = [...prev]
+                if (i === result.path.length - 1) {
+                  newMatrix[result.path[i].num].status = 1
+                  return newMatrix
+                }
+                if (i === 0) {
+                  newMatrix[result.path[i].num].status = 0
+                  return newMatrix
+                }
+                newMatrix[result.path[i].num].status = 6
                 return newMatrix
-              }
-              if (i === 0) {
-                newMatrix[path[i].num].status = 0
-                return newMatrix
-              }
-              newMatrix[path[i].num].status = 6
-              return newMatrix
-            })
-          }, 25 * i)
-        }
-      }, type === 'djikstra'? speed * visitedNodes.length :speed * path.length)
+              })
+            }, 25 * i)
+          }
+      }, type === 'djikstra'? speed * visitedNodes.length :speed * result.path.length)
+    } else {
+            alert('No path found!')
+            setDisableStarters(false);
+            return;
+    }
 
-      setTimeout(() => {
-        setDisableStarters(false);
-      }, type === 'djikstra'? (speed * visitedNodes.length) + (25 * path.length): (speed * path.length) + (25 * path.length))
+      if (result?.path) {
+        setTimeout(() => {
+          setDisableStarters(false);
+        }, type === 'djikstra'? (speed * visitedNodes.length) + (25 * result.path.length): (speed * result.path.length) + (25 * result.path.length))
+      }
     }
 
 
@@ -133,7 +139,7 @@ import Node from './components/Node'
         <div style={styles.center}>
           <div style={styles.grid}>
             {matrix.map((node) => (
-              <Node disabledChoice={disabledChoice} setMatrix={setMatrix} mode={mode} key={node.num} num={node.num} status={node.status} />
+              <Node isMouseDown={isMouseDown} setIsMouseDown={setIsMouseDown} disabledChoice={disabledChoice} setMatrix={setMatrix} mode={mode} key={node.num} num={node.num} status={node.status} />
               ))}
           </div>
         </div>
